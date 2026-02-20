@@ -10,7 +10,7 @@
     "openclaw",
     "zk"
   ],
-  "author": "Illia Korotia",
+  "author": "BillionsNetwork",
   "license": "UNLICENSED",
   "dependencies": {
     "@0xpolygonid/js-sdk": "^1.18.1",
