@@ -96,8 +96,6 @@ All cryptographic material is persisted to `$HOME/.openclaw/billions/` — a dir
 | `challenges.json`  | Per-DID challenge history                       |
 | `credentials.json` | Verifiable credentials                          |
 
-Because this path is outside the agent workspace, the agent runtime has no ambient read or write access to these files. Access is restricted to the local OS user who installed the skill. File-based plaintext storage is safe in this context: no external party and no agent process can reach the keys.
-
 ### Subprocess Execution Safety
 
 **Only one specific command is ever executed: `openclaw message send`**, with a fixed, hardcoded argument structure. The binary name, the subcommand, and all flag names (`--target`, `--message`) are hardcoded. User-supplied values are only ever passed as the **values** of those flags, never as the command name, subcommand, or flag names. Nothing else can be executed. There is no mechanism to change the binary, add flags, or inject subcommands. Additional security properties:
