@@ -77,14 +77,14 @@ npm dependencies are intentionally minimal and scoped to well-established, audit
 
 | Package                | Purpose                                                      |
 | ---------------------- | ------------------------------------------------------------ |
-| `@0xpolygonid/js-sdk`  | iden3/Polygon ID cryptographic primitives and key management |
+| `@0xpolygonid/js-sdk`  | iden3/Privado ID cryptographic primitives and key management |
 | `@iden3/js-iden3-core` | DID and identity core types                                  |
 | `@iden3/js-iden3-auth` | JWS/JWA authorization response construction and verification |
 | `ethers`               | Ethereum key utilities                                       |
 | `shell-quote`          | Shell token parsing used **only** for input sanitization     |
 | `uuid`                 | UUID generation for protocol message IDs                     |
 
-Also major libs that influence the identity management part have fixed well tested library versions.
+Core libraries governing identity management use pinned, well-tested versions to ensure stability and security.
 
 ### Key Storage and Isolation
 
@@ -131,7 +131,7 @@ Each entry in the array is versioned. The `alias` is always stored in plain text
 ]
 ```
 
-**Behaviour summary**
+**Behavior summary**
 
 | `BILLIONS_NETWORK_MASTER_KMS_KEY` | `provider` on disk | `key` value on disk     |
 | --------------------------------- | ------------------ | ----------------------- |
@@ -186,14 +186,14 @@ Prompt injection and arbitrary code execution are structurally impossible: the e
 
 - All external https calls will be made to trusted resources. Signed JWS attestation (proof of agent ownership) is encoded securely by utilizing robust security practices and sent within user context directly to agent owner. It requires an explicit user consent to pass it to any external source. It is not sent automatically anywhere without user participation.
   All network calls are directed to legitimate DID resolvers (resolver.privado.id) or the project's own infrastructure (billions.network).
-  These network calls can not exfiltrate signed attestations or identity data to third-party services by skill design as they do not pass them. This is possible only through explicit action from the user side with consent. Also attestation contains only publicly verifiable information.
+  These network calls cannot exfiltrate signed attestations or identity data to third-party services by skill design as they do not pass them. This is possible only through explicit action from the user side with consent. Also attestation contains only publicly verifiable information.
 - No external binary other than `openclaw` is invoked.
-- Any external URLs or verification links produced by the scripts are delivered to the user as a plain text message via `openclaw message send`. The agent has no ability to follow, fetch, open, or interact with those URLs in any way - it only forwards the string to the user.
+- External URLs or verification links produced by the scripts are delivered to the user as a plain text message via `openclaw message send`. The agent has no ability to follow, fetch, open, or interact with those URLs in any way - it only forwards the string to the user.
 
 ### Openclaw exec policy
 
-Code uses shell command execution detected in the scripts/shared/utils.js, but security-conscious patterns are evident in scripts/shared/utils.js, which uses execFileSync to prevent shell interpolation and includes custom sanitization logic (assertNoShellOperators) to mitigate injection risks when calling the openclaw CLI. 
-Only Openclaw binary is invoked.
+Code in the scripts/shared/utils.js uses shell command execution, but in a security-conscious manner using execFileSync to prevent shell interpolation and includes sanitization logic (assertNoShellOperators) to mitigate injection risks when calling the openclaw CLI. 
+Only the openclaw binary is invoked.
 
 ## Documentation
 
